@@ -12,6 +12,7 @@ $ErrorActionPreference = "Stop"
 . "$PSScriptRoot\getCompanies.ps1"
 . "$PSScriptRoot\getThreeMonthsData.ps1"
 . "$PSScriptRoot\getThreeMonthsDataForAllCompanies.ps1"
+. "$PSScriptRoot\FindLowAndHighPoints.ps1"
 
 if ($op -eq 'getCompanies') {
   getCompanies -exchange $exchange -forceDownload:$forceDownload
@@ -21,4 +22,7 @@ elseif ($op -eq 'getThreeMonthsData') {
 }
 elseif ($op -eq 'getThreeMonthsDataForAllCompanies') {
   getThreeMonthsDataForAllCompanies -exchange $exchange -forceDownload:$forceDownload
+}
+elseif ($op -eq 'FindLowAndHighPoints') {
+  FindLowAndHighPoints -exchange $exchange -company $company
 }
