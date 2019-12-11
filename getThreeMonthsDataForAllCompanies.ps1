@@ -1,6 +1,6 @@
-. "$PSScriptRoot\getCompanies.ps1"
-. "$PSScriptRoot\getThreeMonthsData.ps1"
-. "$PSScriptRoot\New-Tuple.ps1"
+. "$PSScriptRoot$($slash)getCompanies.ps1"
+. "$PSScriptRoot$($slash)getThreeMonthsData.ps1"
+. "$PSScriptRoot$($slash)New-Tuple.ps1"
 
 function getThreeMonthsDataForAllCompanies(
   [switch]$forceDownload,

@@ -3,20 +3,20 @@ function getCompanies(
   [string]$exchange
 ) {
   if ($exchange -eq $null) { throw "-exchange is required" }
-  $apiKey = Get-Content -Path "$PSScriptRoot\api_key.txt" -First 1
 
-  $csvPath = "$PSScriptRoot\data\$exchange\companies\$($exchange)_metadata.csv"
+  $csvPath = "$PSScriptRoot{0}data{0}$exchange{0}companies{0}$($exchange)_metadata.csv" -f $slash
   if ($forceDownload -or -not (Test-Path -Path $csvPath -PathType Leaf)) {
     Write-Host "Downloading companies for exchange $exchange"
-    $unused = [system.io.directory]::CreateDirectory("$PSScriptRoot\data\$exchange\companies")
+    $csvDir = [System.IO.Path]::GetDirectoryName($csvPath)
+    $unused = [System.IO.Directory]::CreateDirectory($csvDir)
     $url = "https://www.quandl.com/api/v3/databases/$exchange/metadata?api_key=$apiKey"
-    $zipPath = "$PSScriptRoot\data\$exchange\companies.zip"
+    $zipPath = "$PSScriptRoot{0}data{0}$exchange{0}companies.zip" -f $slash
 
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls11 -bor [System.Net.SecurityProtocolType]::Tls12;
     $wc = New-Object System.Net.WebClient
     $unused = $wc.DownloadFile($url, $zipPath)
 
-    $unused = Expand-Archive -Path $zipPath -DestinationPath "$PSScriptRoot\data\$exchange\companies"
+    $unused = Expand-Archive -Path $zipPath -DestinationPath $csvDir -Force
   }
 
   $csv = Import-Csv -Path $csvPath

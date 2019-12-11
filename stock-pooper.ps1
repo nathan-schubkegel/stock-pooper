@@ -6,14 +6,17 @@ param (
   [switch]$forceJsonToCsv
 )
 
+# stuff used by every included file
 $ErrorActionPreference = "Stop"
-#$apiKey = Get-Content -Path "$PSScriptRoot\api_key.txt" -First 1
+$slash = [IO.Path]::DirectorySeparatorChar
+$apiKeyPath = "$PSScriptRoot{0}api_key.txt" -f $slash
+$apiKey = Get-Content -Path $apiKeyPath -First 1
 
-. "$PSScriptRoot\getCompanies.ps1"
-. "$PSScriptRoot\getThreeMonthsData.ps1"
-. "$PSScriptRoot\getThreeMonthsDataForAllCompanies.ps1"
-. "$PSScriptRoot\FindLowAndHighPoints.ps1"
-. "$PSScriptRoot\makePlot.ps1"
+. "$PSScriptRoot$($slash)getCompanies.ps1"
+. "$PSScriptRoot$($slash)getThreeMonthsData.ps1"
+. "$PSScriptRoot$($slash)getThreeMonthsDataForAllCompanies.ps1"
+. "$PSScriptRoot$($slash)FindLowAndHighPoints.ps1"
+. "$PSScriptRoot$($slash)makePlot.ps1"
 
 if ($op -eq 'getCompanies') {
   getCompanies -exchange $exchange -forceDownload:$forceDownload

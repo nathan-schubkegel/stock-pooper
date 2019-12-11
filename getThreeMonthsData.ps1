@@ -6,14 +6,14 @@ function getThreeMonthsData(
 ) {
   if ($exchange -eq $null) { throw "-exchange is required" }
   if ($company -eq $null) { throw "-company is required" }
-  $apiKey = Get-Content -Path "$PSScriptRoot\api_key.txt" -First 1
 
-  $jsonPath = "$PSScriptRoot\data\$exchange\$company\threeMonths.json"
+  $jsonPath = "$PSScriptRoot$($slash)data$($slash)$exchange$($slash)$company$($slash)threeMonths.json"
   $jsonAcquired = $false
   if ($forceDownload -or -not (Test-Path -Path $jsonPath -PathType Leaf)) {
     $jsonAcquired = $true
     Write-Host "Downloading data for company $company from exchange $exchange"
-    $unused = [system.io.directory]::CreateDirectory("$PSScriptRoot\data\$exchange\$company")
+    $jsonDir = [System.IO.Path]::GetDirectoryName($jsonPath)
+    $unused = [System.IO.Directory]::CreateDirectory($jsonDir)
     $from = (Get-Date).Subtract([System.TimeSpan]::FromDays(90)).ToString("yyyy-MM-dd")
     $to = (Get-Date).ToString("yyyy-MM-dd")
     $url = "https://www.quandl.com/api/v3/datasets/$exchange/$company.json?start_date=$from&end_date=$to&api_key=$apiKey"
@@ -23,7 +23,7 @@ function getThreeMonthsData(
     $unused = $wc.DownloadFile($url, $jsonPath)
   }
 
-  $csvPath = "$PSScriptRoot\data\$exchange\$company\threeMonths.csv"
+  $csvPath = "$PSScriptRoot$($slash)data$($slash)$exchange$($slash)$company$($slash)threeMonths.csv"
   if ($jsonAcquired -or $forceJsonToCsv -or -not (Test-Path -Path $csvPath -PathType Leaf)) {
 
     function ArrayToCsv($fields) {

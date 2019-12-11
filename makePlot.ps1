@@ -1,4 +1,4 @@
-. "$PSScriptRoot\getThreeMonthsData.ps1"
+. "$PSScriptRoot$($slash)getThreeMonthsData.ps1"
 
 function makePlot(
   [string]$exchange,
@@ -6,7 +6,7 @@ function makePlot(
 ) {
   $csvRows = getThreeMonthsData -exchange $exchange -company $company
   [array]::Reverse($csvRows)
-  $pngPath = "$PSScriptRoot\data\$exchange\$company\threeMonths.png"
+  $pngPath = "$PSScriptRoot$($slash)data$($slash)$exchange$($slash)$company$($slash)threeMonths.png"
 
   # ripped off from https://github.com/horker/oxyplotcli2/blob/master/examples/Plot-CandleStickSeries.ps1
   $orcl = $csvRows | oxy.candle -XName Date -OpenName Open -HighName High -LowName Low -CloseName Close -YAxisKey $company
