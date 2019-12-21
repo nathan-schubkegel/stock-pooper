@@ -2,7 +2,7 @@ function getCompanies(
   [switch]$forceDownload,
   [string]$exchange
 ) {
-  if ($exchange -eq $null) { throw "-exchange is required" }
+  if (-not $exchange) { throw "-exchange is required" }
 
   $csvPath = "$PSScriptRoot{0}data{0}$exchange{0}companies{0}$($exchange)_metadata.csv" -f $slash
   if ($forceDownload -or -not (Test-Path -Path $csvPath -PathType Leaf)) {

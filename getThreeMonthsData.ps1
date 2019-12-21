@@ -4,8 +4,8 @@ function getThreeMonthsData(
   [string]$exchange,
   [string]$company
 ) {
-  if ($exchange -eq $null) { throw "-exchange is required" }
-  if ($company -eq $null) { throw "-company is required" }
+  if (-not $exchange) { throw "-exchange is required" }
+  if (-not $company) { throw "-company is required" }
 
   $jsonPath = "$PSScriptRoot$($slash)data$($slash)$exchange$($slash)$company$($slash)threeMonths.json"
   $jsonAcquired = $false

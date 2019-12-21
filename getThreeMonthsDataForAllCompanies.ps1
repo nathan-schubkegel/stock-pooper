@@ -6,6 +6,8 @@ function getThreeMonthsDataForAllCompanies(
   [switch]$forceDownload,
   [string]$exchange
 ) {
+  if (-not $exchange) { throw "-exchange is required."; }
+
   $companies = getCompanies -forceDownload:$forceDownload -exchange $exchange
   foreach ($company in $companies) {
     $data = getThreeMonthsData -forceDownload:$forceDownload -exchange $exchange -company $company

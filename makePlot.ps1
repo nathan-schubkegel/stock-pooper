@@ -4,6 +4,9 @@ function makePlot(
   [string]$exchange,
   [string]$company
 ) {
+  if (-not $exchange) { throw "-exchange is required"; }
+  if (-not $company) { throw "-company is required"; }
+
   $csvRows = getThreeMonthsData -exchange $exchange -company $company
   [array]::Reverse($csvRows)
   $pngPath = "$PSScriptRoot$($slash)data$($slash)$exchange$($slash)$company$($slash)threeMonths.png"

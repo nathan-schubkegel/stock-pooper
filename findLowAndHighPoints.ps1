@@ -6,6 +6,9 @@ function FindLowAndHighPoints(
   [string]$exchange,
   [string]$company) 
 {
+  if (-not $exchange) { throw "-exchange must be provided"; }
+  if (-not $company) { throw "-company must be provided"; }
+
   $rows = getThreeMonthsData -exchange $exchange -company $company
   $data = $rows | ForEach-Object { New-Tuple("open", [convert]::ToDecimal($_.Open), "close", [convert]::ToDecimal($_.Close)) }
   for ($i = 0; $i -lt $data.Length; $i++) {
