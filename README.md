@@ -4,10 +4,12 @@ My scripts for findings stocks to invest in.
 * Targets the REST api provided by www.quandl.com
 * If I make a million dollars, I'll consider changing my job title =)
 
-# Use
+# Setup
 * Save your quandl API key to api_key.txt
 * Install dependencies
-  * ```Install-Module oxyplotcli -RequiredVersion 2.0.1```
+  * ```nuget install OxyPlot.Core -version 2.0.0 -OutputDirectory oxyplot``` (requires nuget!)
+
+# Use
 * Run some powershell scripts! They're all accessible via stock-pooper.ps1. Example: ```powershell .\stockPooper.ps1 -getThreeMonthsData -exchange FSE -company 1COV_X```
 
 # License

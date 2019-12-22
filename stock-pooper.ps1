@@ -12,6 +12,9 @@ $slash = [IO.Path]::DirectorySeparatorChar
 $apiKeyPath = "$PSScriptRoot{0}api_key.txt" -f $slash
 $apiKey = Get-Content -Path $apiKeyPath -First 1
 
+# referenced .net standard dlls
+Add-Type -Path "$PSScriptRoot$($slash)oxyplot$($slash)OxyPlot.Core.2.0.0$($slash)lib$($slash)netstandard1.0$($slash)OxyPlot.dll"
+
 . "$PSScriptRoot$($slash)getCompanies.ps1"
 . "$PSScriptRoot$($slash)getThreeMonthsData.ps1"
 . "$PSScriptRoot$($slash)getThreeMonthsDataForAllCompanies.ps1"
