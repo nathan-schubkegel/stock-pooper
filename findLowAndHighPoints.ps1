@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = "Stop"
 
-function FindLowAndHighPoints(
+function findLowAndHighPoints(
   [string]$exchange,
   [string]$company) 
 {
