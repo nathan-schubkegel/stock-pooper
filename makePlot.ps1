@@ -1,4 +1,5 @@
 . "$PSScriptRoot$($slash)getThreeMonthsData.ps1"
+. "$PSScriptRoot$($slash)New-Tuple.ps1"
 
 function makePlot(
   [string]$exchange,
@@ -17,17 +18,15 @@ function makePlot(
   if (-not $csvRows) {
     return
   }
-  [array]::Reverse($csvRows)
 
   # ripped off from https://github.com/horker/oxyplotcli2/blob/master/examples/Plot-CandleStickSeries.ps1
-  $orcl = $csvRows | oxy.candle -XName Date -OpenName Open -HighName High -LowName Low -CloseName Close -YAxisKey $company
-  $xAxis = oxy.axis.dateTime -StringFormat "yyyy/MM/dd" -IntervalType Weeks -Title "Date"
-  $orclAxis = oxy.axis.linear -Key $company -Position Left -Title "Price ($company)" -EndPosition .65
-  $orclText = oxy.ann.text -text $company -TextPosition "2017/11/20", 50.2 -Background white -YAxisKey $company
+  $orcli = $csvRows | oxy.candle -XName Index -OpenName Open -HighName High -LowName Low -CloseName Close
+  $mords = $csvRows | ForEach-Object { 
+    New-Tuple("Index", $_.Index, "Value", $_.Open); 
+    New-Tuple("Index", "$($_.Index).5", "Value", $_.Close);
+  } | oxy.line -XName Index -YName Value -Color red -LineStyle Solid -StrokeThickness 3
 
-  oxy.model -SeriesInfo $orcl `
-    -Axis $xAxis, $orclAxis `
-    -Annotation $orclText `
+  oxy.model -SeriesInfo $orcli, $mords `
     -Title "Stock Prices: $company" `
     -OutFile $pngPath `
     -OutWidth 800 `

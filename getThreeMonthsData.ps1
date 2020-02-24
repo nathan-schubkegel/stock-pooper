@@ -52,5 +52,21 @@ function getThreeMonthsData(
   }
 
   $csv = Import-Csv -Path $csvPath
+
+  # make sure data is returned "earliest dates first"
+  if ($csv -ne $null -and $csv.Length -ge 2) {
+    $date0 = [datetime]::parseexact($csv[0].Date, 'yyyy-MM-dd', $null)
+    $date1 = [datetime]::parseexact($csv[1].Date, 'yyyy-MM-dd', $null)
+    if ($date0 -gt $date1) {
+      [array]::Reverse($csv)
+    }
+  }
+  
+  $i = 0
+  foreach ($csvRow in $csv) {
+    $unused = $csvRow | add-member NoteProperty "Index" $i.ToString()
+    $unused = $i++
+  }
+
   $csv
 }
